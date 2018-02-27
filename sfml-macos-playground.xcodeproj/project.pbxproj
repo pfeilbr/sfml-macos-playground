@@ -13,6 +13,8 @@
 		4DED875A1E55DE7B00C306FA /* nice_music.ogg in Resources */ = {isa = PBXBuildFile; fileRef = 4DED87591E55DE7B00C306FA /* nice_music.ogg */; };
 		4DED875C1E55DE7B00C306FA /* sansation.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4DED875B1E55DE7B00C306FA /* sansation.ttf */; };
 		4DED875E1E55DE7B00C306FA /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 4DED875D1E55DE7B00C306FA /* icon.png */; };
+		4DED87661E55EE9000C306FA /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4DED87651E55EE9000C306FA /* OpenGL.framework */; };
+		4DED87681E5641A000C306FA /* readme.txt in Resources */ = {isa = PBXBuildFile; fileRef = 4DED87671E5641A000C306FA /* readme.txt */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -25,6 +27,8 @@
 		4DED87591E55DE7B00C306FA /* nice_music.ogg */ = {isa = PBXFileReference; lastKnownFileType = file; path = nice_music.ogg; sourceTree = "<group>"; };
 		4DED875B1E55DE7B00C306FA /* sansation.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = sansation.ttf; sourceTree = "<group>"; };
 		4DED875D1E55DE7B00C306FA /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon.png; sourceTree = "<group>"; };
+		4DED87651E55EE9000C306FA /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
+		4DED87671E5641A000C306FA /* readme.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = readme.txt; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -32,6 +36,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4DED87661E55EE9000C306FA /* OpenGL.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -43,6 +48,7 @@
 			children = (
 				4DED874E1E55DE7B00C306FA /* sfml-macos-playground */,
 				4DED874D1E55DE7B00C306FA /* Products */,
+				4DED87641E55EE9000C306FA /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -81,8 +87,17 @@
 				4DED87591E55DE7B00C306FA /* nice_music.ogg */,
 				4DED875B1E55DE7B00C306FA /* sansation.ttf */,
 				4DED875D1E55DE7B00C306FA /* icon.png */,
+				4DED87671E5641A000C306FA /* readme.txt */,
 			);
 			name = Resources;
+			sourceTree = "<group>";
+		};
+		4DED87641E55EE9000C306FA /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				4DED87651E55EE9000C306FA /* OpenGL.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -144,6 +159,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4DED87681E5641A000C306FA /* readme.txt in Resources */,
 				4DED875E1E55DE7B00C306FA /* icon.png in Resources */,
 				4DED875C1E55DE7B00C306FA /* sansation.ttf in Resources */,
 				4DED875A1E55DE7B00C306FA /* nice_music.ogg in Resources */,
@@ -186,7 +202,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(NATIVE_ARCH_ACTUAL)";
-				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
+				CLANG_CXX_LANGUAGE_STANDARD = "c++14";
 				CLANG_CXX_LIBRARY = "libc++";
 				FRAMEWORK_SEARCH_PATHS = (
 					/Library/Frameworks/,
@@ -230,7 +246,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(NATIVE_ARCH_ACTUAL)";
-				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
+				CLANG_CXX_LANGUAGE_STANDARD = "c++14";
 				CLANG_CXX_LIBRARY = "libc++";
 				FRAMEWORK_SEARCH_PATHS = (
 					/Library/Frameworks/,
@@ -309,6 +325,7 @@
 				4DED87631E55DE7B00C306FA /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
