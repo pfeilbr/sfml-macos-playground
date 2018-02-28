@@ -23,6 +23,7 @@
 #include <vector>
 #include <string>
 #include <fstream>
+#include <thread>
 
 // Here is a small helper for you! Have a look.
 #include "ResourcePath.hpp"
@@ -56,26 +57,181 @@ sf::Texture randomTexture() {
     return texture;
 }
 
-void drawRandomColorRectangleWithOpenGL() {
-    glClear(GL_COLOR_BUFFER_BIT);
+void glWindowHandler(sf::RenderWindow& window, const sf::String& windowName) {
+    glEnable(GL_TEXTURE_2D);
     
-    // generate random color
-    GLfloat red = ((GLfloat) rand() / (RAND_MAX));
-    GLfloat green = ((GLfloat) rand() / (RAND_MAX));
-    GLfloat blue = ((GLfloat) rand() / (RAND_MAX));
     
-    glColor3f(red, green, blue);
-    glBegin(GL_POLYGON);
-    glVertex3f(0.0, 0.0, 0.0);
-    glVertex3f(0.5, 0.0, 0.0);
-    glVertex3f(0.5, 0.5, 0.0);
-    glVertex3f(0.0, 0.5, 0.0);
-    glEnd();
-    glFlush();
+    // run the program as long as the window is open
+    if (window.isOpen())
+    {
+        // check all the window's events that were triggered since the last iteration of the loop
+        sf::Event event;
+        while (window.pollEvent(event))
+        {
+            // "close requested" event: we close the window
+            if (event.type == sf::Event::Closed)
+                window.close();
+        }
+    
+        // activate the window's OpenGL context
+        window.setActive(true);
+        
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        
+        // set background color to red
+        glClearColor(1.0f, 0.0f, 0.0f, 0.0f);
+
+        // generate random color
+        GLfloat red = ((GLfloat) rand() / (RAND_MAX));
+        GLfloat green = ((GLfloat) rand() / (RAND_MAX));
+        GLfloat blue = ((GLfloat) rand() / (RAND_MAX));
+        
+        glColor3f(red, green, blue);
+        glBegin(GL_POLYGON);
+            glVertex3f(0.0, 0.0, 0.0);
+            glVertex3f(0.5, 0.0, 0.0);
+            glVertex3f(0.5, 0.5, 0.0);
+            glVertex3f(0.0, 0.5, 0.0);
+        glEnd();
+        glFlush();
+        
+        window.display();
+        
+        // deactivate the window's OpenGL context
+        window.setActive(false);
+    }
+    
 
 }
+
+void window1Hanlder(sf::RenderWindow& window, const sf::String& windowName) {
+    
+    static sf::Font font;
+    if (!font.loadFromFile(resourcePath() + "sansation.ttf")) {
+        return EXIT_FAILURE;
+    }
+    
+    
+    if (window.isOpen())
+    {
+        // Process events
+        sf::Event event;
+        while (window.pollEvent(event))
+        {
+            // Close window: exit
+            if (event.type == sf::Event::Closed) {
+                window.close();
+            }
+            
+            if (event.type == sf::Event::MouseButtonPressed) {
+                std::cout << "mouse clicked on window named " << windowName.toAnsiString() << std::endl;
+            }
+            
+
+            if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape) {
+                window.close();
+            }
+            
+            if (event.type == sf::Event::Resized)
+            {
+                // adjust the viewport when the window is resized
+                glViewport(0, 0, event.size.width, event.size.height);
+            }
+        }
+        
+        window.clear();
+        
+        
+        sf::Text text(windowName, font, 50);
+        text.setFillColor(sf::Color::White);
+        window.draw(text);
+        window.display();
+    }
+}
+
+void window2Hanlder(sf::RenderWindow& window, const sf::String& windowName) {
+    
+    static sf::Font font;
+    if (!font.loadFromFile(resourcePath() + "sansation.ttf")) {
+        return EXIT_FAILURE;
+    }
+    
+    
+    if (window.isOpen())
+    {
+        // Process events
+        sf::Event event;
+        while (window.pollEvent(event))
+        {
+            // Close window: exit
+            if (event.type == sf::Event::Closed) {
+                window.close();
+            }
+            
+            if (event.type == sf::Event::MouseButtonPressed) {
+                std::cout << "mouse clicked on window named " << windowName.toAnsiString() << std::endl;
+            }
+            
+            
+            if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape) {
+                window.close();
+            }
+            
+            if (event.type == sf::Event::Resized)
+            {
+                // adjust the viewport when the window is resized
+                glViewport(0, 0, event.size.width, event.size.height);
+            }
+        }
+        
+        window.clear();
+        
+        
+        sf::Text text(windowName, font, 50);
+        text.setFillColor(sf::Color::White);
+        window.draw(text);
+        window.display();
+    }
+}
+
+
+void runWithMultipleWindows() {
+    // create multiple windows and manage in single thread
+    //
+    // On OS X, windows and events must be managed in the main thread
+    // Yep, that's true. Mac OS X just won't agree if you try to create a window or handle events in a thread other than the main one.
+    // src: https://www.sfml-dev.org/tutorials/2.0/window-window.php
+    
+    sf::RenderWindow w1(sf::VideoMode(800, 600), "window 1");
+    sf::RenderWindow w2(sf::VideoMode(800, 600), "window 2");
+    sf::RenderWindow glWin(sf::VideoMode(800, 600), "OpenGL Window");
+    
+    w1.setPosition({0,0});
+    w2.setPosition({200,200});
+    glWin.setPosition({300,300});
+    
+    while (true) {
+        window1Hanlder(w1, "Window #1");
+        window2Hanlder(w2, "Window #2");
+        glWindowHandler(glWin, "OpenGL Window");
+        sf::sleep(sf::milliseconds(200));
+    }
+    
+}
+
+
 int main(int, char const**)
 {
+    //sf::Window w1(sf::VideoMode(800, 600), "My window");
+    //std::thread(&drawRandomColorRectangleWithOpenGL).detach();
+    
+    //sf::Thread thread(&drawRandomColorRectangleWithOpenGL);
+    //thread.launch();
+    
+    runWithMultipleWindows();
+    
+    return 0;
+    
     scratch();
     // Create the main window
     sf::RenderWindow window(sf::VideoMode(800, 600), "SFML window");
@@ -106,7 +262,6 @@ int main(int, char const**)
     if (!texture.loadFromFile(resourcePath() + "cute_image.jpg")) {
         return EXIT_FAILURE;
     }
-    
     
     
     sf::Sprite sprite(texture);
@@ -176,7 +331,7 @@ int main(int, char const**)
         
         
         //window.draw(randomSprite);
-        drawRandomColorRectangleWithOpenGL();
+        //drawRandomColorRectangleWithOpenGL();
         
         
         // set background color to red
