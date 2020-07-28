@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4DA671742084E71E00B2ECE6 /* GLUT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4DA671732084E71E00B2ECE6 /* GLUT.framework */; };
 		4DED87521E55DE7B00C306FA /* ResourcePath.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4DED87511E55DE7B00C306FA /* ResourcePath.mm */; };
 		4DED87551E55DE7B00C306FA /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4DED87541E55DE7B00C306FA /* main.cpp */; };
 		4DED87581E55DE7B00C306FA /* cute_image.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 4DED87571E55DE7B00C306FA /* cute_image.jpg */; };
@@ -18,6 +19,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		4DA671732084E71E00B2ECE6 /* GLUT.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLUT.framework; path = System/Library/Frameworks/GLUT.framework; sourceTree = SDKROOT; };
 		4DED874C1E55DE7B00C306FA /* sfml-macos-playground.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "sfml-macos-playground.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4DED87501E55DE7B00C306FA /* sfml-macos-playground-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "sfml-macos-playground-Info.plist"; sourceTree = "<group>"; };
 		4DED87511E55DE7B00C306FA /* ResourcePath.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = ResourcePath.mm; sourceTree = "<group>"; };
@@ -36,6 +38,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4DA671742084E71E00B2ECE6 /* GLUT.framework in Frameworks */,
 				4DED87661E55EE9000C306FA /* OpenGL.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -95,6 +98,7 @@
 		4DED87641E55EE9000C306FA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				4DA671732084E71E00B2ECE6 /* GLUT.framework */,
 				4DED87651E55EE9000C306FA /* OpenGL.framework */,
 			);
 			name = Frameworks;

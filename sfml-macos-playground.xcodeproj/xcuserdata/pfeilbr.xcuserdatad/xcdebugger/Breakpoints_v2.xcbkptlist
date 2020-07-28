@@ -26,11 +26,27 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "sfml-macos-playground/main.cpp"
-            timestampString = "541472788.9288369"
+            timestampString = "545581985.264171"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "89"
-            endingLineNumber = "89"
+            startingLineNumber = "103"
+            endingLineNumber = "103"
+            landmarkName = "glWindowHandler(sf::RenderWindow&amp; window, const sf::String&amp; windowName)"
+            landmarkType = "9">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "sfml-macos-playground/main.cpp"
+            timestampString = "545581957.616394"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "82"
+            endingLineNumber = "82"
             landmarkName = "glWindowHandler(sf::RenderWindow&amp; window, const sf::String&amp; windowName)"
             landmarkType = "9">
          </BreakpointContent>

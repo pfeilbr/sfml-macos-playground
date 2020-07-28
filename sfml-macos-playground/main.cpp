@@ -19,6 +19,8 @@
 
 #include <SFML/OpenGL.hpp>
 
+#include <GLUT/GLUT.h>
+
 #include <iostream>
 #include <vector>
 #include <string>
@@ -27,6 +29,8 @@
 
 // Here is a small helper for you! Have a look.
 #include "ResourcePath.hpp"
+
+using namespace std;
 
 void scratch() {
     std::ifstream fin;
@@ -58,7 +62,6 @@ sf::Texture randomTexture() {
 }
 
 void glWindowHandler(sf::RenderWindow& window, const sf::String& windowName) {
-    glEnable(GL_TEXTURE_2D);
     
     
     // run the program as long as the window is open
@@ -69,29 +72,40 @@ void glWindowHandler(sf::RenderWindow& window, const sf::String& windowName) {
         while (window.pollEvent(event))
         {
             // "close requested" event: we close the window
-            if (event.type == sf::Event::Closed)
+            if (event.type == sf::Event::Closed) {
                 window.close();
+            }
+            
+            
+            if (event.type == sf::Event::Resized) {
+                // adjust the viewport when the window is resized
+                glViewport(0, 0, event.size.width, event.size.height);
+            }
+            
         }
     
         // activate the window's OpenGL context
         window.setActive(true);
-        
+        glEnable(GL_TEXTURE_2D);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         
         // set background color to red
-        glClearColor(1.0f, 0.0f, 0.0f, 0.0f);
+        glClearColor(1.0f, 0.0f, 0.0f, 1.0f);
 
         // generate random color
         GLfloat red = ((GLfloat) rand() / (RAND_MAX));
         GLfloat green = ((GLfloat) rand() / (RAND_MAX));
         GLfloat blue = ((GLfloat) rand() / (RAND_MAX));
         
+        
+        // draw filled rectangle with a bit of padding (0.1 on each side)
+        // NOTE: x coordinate goes from  -1 to 1 and y coordinate goes from  -1 to 1
         glColor3f(red, green, blue);
         glBegin(GL_POLYGON);
-            glVertex3f(0.0, 0.0, 0.0);
-            glVertex3f(0.5, 0.0, 0.0);
-            glVertex3f(0.5, 0.5, 0.0);
-            glVertex3f(0.0, 0.5, 0.0);
+            glVertex3f(-0.9, -0.9, 0.0);
+            glVertex3f(0.9, -0.9, 0.0);
+            glVertex3f(0.9, 0.9, 0.0);
+            glVertex3f(-0.9, 0.9, 0.0);
         glEnd();
         glFlush();
         
@@ -103,6 +117,43 @@ void glWindowHandler(sf::RenderWindow& window, const sf::String& windowName) {
     
 
 }
+
+
+void glWindow2Handler(sf::RenderWindow& window, const sf::String& windowName) {
+    static int prevX, prexY = 0;
+    static float rotX = 0.0;
+    
+    if (window.isOpen())
+    {
+        sf::Event event;
+        while (window.pollEvent(event))
+        {
+            if (event.type == sf::Event::Closed) {
+                window.close();
+            }
+            
+            if (event.type == sf::Event::Resized) {
+                glViewport(0, 0, event.size.width, event.size.height);
+            }
+          
+            if (event.type == sf::Event::MouseMoved) {
+                cout << "mouse(" << event.mouseMove.x << "," << event.mouseMove.y << ")" << endl;
+            }
+        }
+        
+        window.setActive(true);
+        glEnable(GL_TEXTURE_2D);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+        glutWireTeapot(0.5);
+        
+        glFlush();
+        window.display();
+        
+        window.setActive(false);
+    }
+}
+
 
 void window1Hanlder(sf::RenderWindow& window, const sf::String& windowName) {
     
@@ -202,18 +253,24 @@ void runWithMultipleWindows() {
     // Yep, that's true. Mac OS X just won't agree if you try to create a window or handle events in a thread other than the main one.
     // src: https://www.sfml-dev.org/tutorials/2.0/window-window.php
     
-    sf::RenderWindow w1(sf::VideoMode(800, 600), "window 1");
-    sf::RenderWindow w2(sf::VideoMode(800, 600), "window 2");
-    sf::RenderWindow glWin(sf::VideoMode(800, 600), "OpenGL Window");
+    sf::RenderWindow win1(sf::VideoMode(800, 600), "window 1");
+    sf::RenderWindow win2(sf::VideoMode(800, 600), "window 2");
+    sf::RenderWindow glWin1(sf::VideoMode(800, 600), "OpenGL Window #1");
+    sf::RenderWindow glWin2(sf::VideoMode(800, 600), "OpenGL Window #2");
     
-    w1.setPosition({0,0});
-    w2.setPosition({200,200});
-    glWin.setPosition({300,300});
+    sf::Vector2i firstWindowPosition = {200,200};
+    sf::Vector2i windowXandYPositionOffset = {100,100};
+    
+    win1.setPosition(firstWindowPosition);
+    win2.setPosition(win1.getPosition() + windowXandYPositionOffset);
+    glWin1.setPosition(win2.getPosition() + windowXandYPositionOffset);
+    glWin2.setPosition(glWin1.getPosition() + windowXandYPositionOffset);
     
     while (true) {
-        window1Hanlder(w1, "Window #1");
-        window2Hanlder(w2, "Window #2");
-        glWindowHandler(glWin, "OpenGL Window");
+        window1Hanlder(win1, "Window #1");
+        window2Hanlder(win2, "Window #2");
+        glWindowHandler(glWin1, "OpenGL Window #1");
+        glWindow2Handler(glWin2, "OpenGL Window #2");
         sf::sleep(sf::milliseconds(200));
     }
     
@@ -222,12 +279,6 @@ void runWithMultipleWindows() {
 
 int main(int, char const**)
 {
-    //sf::Window w1(sf::VideoMode(800, 600), "My window");
-    //std::thread(&drawRandomColorRectangleWithOpenGL).detach();
-    
-    //sf::Thread thread(&drawRandomColorRectangleWithOpenGL);
-    //thread.launch();
-    
     runWithMultipleWindows();
     
     return 0;
